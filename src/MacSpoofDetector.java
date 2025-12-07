@@ -7,7 +7,11 @@ import java.util.Set;
 
 public class MacSpoofDetector {
 
-    // Önceki kayıtları tutar
+    /*
+     * ARP tablosunun önceki halini tutar
+     * Key   : IP adresi
+     * Value : MAC adresi
+     */
     private static final Map<String, String> arpTable = new HashMap<>();
 
     public static void main(String[] args) {
@@ -35,6 +39,7 @@ public class MacSpoofDetector {
             process = Runtime.getRuntime().exec("arp -n");
         }
 
+        // Komut çıktısını okumak için BufferedReader
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
 
@@ -42,6 +47,8 @@ public class MacSpoofDetector {
             parseArpLine(line);
         }
     }
+
+
     public static String  findFirstDuplicateValue() {
         Set<String> seen = new HashSet<>();
         for (String value : arpTable.values()) {
@@ -53,7 +60,7 @@ public class MacSpoofDetector {
     }
 
 
-    // ARP satırını çözümle
+    // ARP satırını çözümlüyoruz
     private static void parseArpLine(String line) {
         String cleaned = line.trim();
 
